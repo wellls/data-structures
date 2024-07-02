@@ -71,6 +71,21 @@ func (ov *OrderedVector) BinarySearch(value int) int {
 	return -1
 }
 
+// O(n)
+func (ov *OrderedVector) Delete(value int) int {
+	position := ov.BinarySearch(value)
+	if position == -1 {
+		return -1
+	}
+
+	for i := position; i < ov.lastPosition; i++ {
+		ov.values[i] = ov.values[i+1]
+	}
+
+	ov.lastPosition--
+	return position
+}
+
 func main() {
 	// Create an instance of OrderedVector with a capacity of 10
 	ov := NewOrderedVector(10)
@@ -82,10 +97,14 @@ func main() {
 	ov.Insert(5)
 	ov.Insert(8)
 
-	// Print the vector
 	ov.Print()
 
 	index := ov.BinarySearch(4)
 
 	fmt.Println(index)
+
+	ov.Delete(8)
+	ov.Delete(1)
+
+	ov.Print()
 }
