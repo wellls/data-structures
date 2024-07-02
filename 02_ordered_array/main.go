@@ -52,6 +52,25 @@ func (ov *OrderedVector) Insert(value int) {
 	ov.lastPosition++
 }
 
+// O(log n)
+func (ov *OrderedVector) BinarySearch(value int) int {
+	low := 0
+	high := ov.lastPosition
+
+	for low <= high {
+		mid := (low + high) / 2
+		if ov.values[mid] == value {
+			return mid
+		} else if ov.values[mid] < value {
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+	}
+
+	return -1
+}
+
 func main() {
 	// Create an instance of OrderedVector with a capacity of 10
 	ov := NewOrderedVector(10)
@@ -65,4 +84,8 @@ func main() {
 
 	// Print the vector
 	ov.Print()
+
+	index := ov.BinarySearch(4)
+
+	fmt.Println(index)
 }
