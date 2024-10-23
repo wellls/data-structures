@@ -24,7 +24,7 @@ public class OrderedArray {
 
     // O(1)
     public void insert(int value) {
-        if(this.lastPosition == capacity - 1) {
+        if (this.lastPosition == capacity - 1) {
             System.out.println("Maximum capacity reached");
             return;
         }
@@ -47,7 +47,8 @@ public class OrderedArray {
         this.values[position] = value;
         this.lastPosition++;
     }
-    //O(n)
+
+    // O(n)
     public int linearSearch(int value) {
         for (int i = 0; i <= this.lastPosition; i++) {
             if (this.values[i] > value) {
@@ -60,8 +61,29 @@ public class OrderedArray {
         return -1;
     }
 
+    // O(log n)
+    public int binarySearch(int value) {
+        int lowerLimit = 0;
+        int upperLimit = this.lastPosition;
+
+        while (true) {
+            int currentPosition = (lowerLimit + upperLimit) / 2;
+            if (this.values[currentPosition] == value) {
+                return currentPosition;
+            }
+            if (lowerLimit > upperLimit) {
+                return -1;
+            }
+            if (this.values[currentPosition] < value) {
+                lowerLimit = currentPosition + 1;
+            } else {
+                upperLimit = currentPosition - 1;
+            }
+        }
+    }
+
     public int delete(int value) {
-        int position = this.linearSearch(value);
+        int position = this.binarySearch(value);
         if (position == -1) {
             return -1;
         } else {
@@ -83,8 +105,8 @@ public class OrderedArray {
         array.insert(8);
         array.print();
 
-        int founded = array.linearSearch(5);
-        int notFound = array.linearSearch(7);
+        int founded = array.binarySearch(5);
+        int notFound = array.binarySearch(7);
         System.out.println("5 founded " + founded + " 7 notFound " + notFound);
 
         array.delete(5);
